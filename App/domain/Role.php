@@ -9,14 +9,14 @@
         private string $logo;
 
 
-        public function __construct()
-        {
+        // public function __construct()
+        // {
 
-        }
+        // }
 
-        public function __constructs($id, $title, $description, $logo)
+        public function __construct($title, $description, $logo)
         {
-            $this->id = $id;
+            // $this->id = $id;
             $this->title = $title;
             $this->description = $description;
             $this->logo = $logo;

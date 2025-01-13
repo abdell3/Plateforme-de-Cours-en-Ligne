@@ -19,21 +19,21 @@ class User
 
     public Gender $gender; 
     
-    public function __construct() 
-    {
-    }
+    // public function __construct() 
+    // {
+    // }
     //constructer with paraùeters 
     
-    public function __constructs($id, $nom, $prenom, $phone, $email,$pass, Role $role, $inscrit)
+    public function __construct($nom, $prenom, $phone, $email,$pass, Role $role)
     {
-        $this->id = $id;
+        // $this->id = $id;
         $this->nom = $nom;
         $this->prenom = $prenom;
         $this->phone = $phone;
         $this->email = $email;
         $this->motDePasse = $pass;
         $this->role = $role;
-        $this->dateInscription = $inscrit; 
+        // $this->dateInscription = $inscrit; 
     }
     
     //getters and setters
@@ -42,7 +42,7 @@ class User
     {
         return $this->id;
     }
-    public function setId($id): void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
@@ -51,7 +51,7 @@ class User
     public function getNom(): string{
         return $this->nom;
     }
-    public function setNom($nom): void
+    public function setNom(string $nom): void
     {
         $this->nom = $nom;
     }
@@ -61,7 +61,7 @@ class User
     {
         return $this->prenom;
     }
-    public function setPrenom($prenom): void
+    public function setPrenom(string $prenom): void
     {
         $this->prenom = $prenom;
     }
@@ -71,7 +71,7 @@ class User
     {
         return $this->phone;
     }
-    public function setPhone ($phone): void
+    public function setPhone (string $phone): void
     {
         $this->phone = $phone;
     }
@@ -81,7 +81,7 @@ class User
     {
         return $this->email;
     }
-    public function setEmail($email): void
+    public function setEmail(string $email): void
     {
         $this->email = $email;
     }
@@ -92,7 +92,7 @@ class User
     {
         return $this->motDePasse;
     }
-    public function setMotDePasse($motDePasse): void
+    public function setMotDePasse(string $motDePasse): void
     {
         $this->motDePasse = $motDePasse;
     }
@@ -112,7 +112,7 @@ class User
     {
         return $this->role_id;
     }
-    public function setRoleID($role_id)
+    public function setRoleID(int $role_id)
     {
         $this->role_id = $role_id;
     }
@@ -123,7 +123,7 @@ class User
     {
         return $this->image;
     }
-    public function setImage($image): void
+    public function setImage(string $image): void
     {
         $this->image = $image;
     }
