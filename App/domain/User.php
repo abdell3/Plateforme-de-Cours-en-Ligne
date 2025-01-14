@@ -17,7 +17,7 @@ class User
 
 
 
-    public Gender $gender; 
+    // public Gender $gender; 
     
     // public function __construct() 
     // {
@@ -46,6 +46,7 @@ class User
     {
         $this->id = $id;
     }
+
 
 
     public function getNom(): string{

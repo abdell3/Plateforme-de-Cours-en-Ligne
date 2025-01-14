@@ -8,7 +8,9 @@
         private string $description;
         // private string $contenue;
         private Enseignant $enseignant;
+        private int $enseignant_id;
         private Categorie $categorie;
+        private int $categorie_id; 
         private array $etudiants = [];
         private array $tags = [];
         private string $photo;
