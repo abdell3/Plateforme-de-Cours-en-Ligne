@@ -1,9 +1,9 @@
-<?php
-require_once __DIR__ . '/../include.php';
+<!-- <?php
+// require_once __DIR__ . '/../include.php';
 
-$adminService = new AdminService();
-$admins = $adminService->getAllAdmins();
-?>
+// $adminService = new AdminService();
+// $admins = $adminService->getAllAdmins();
+// ?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -42,4 +42,4 @@ $admins = $adminService->getAllAdmins();
         </table>
     </div>
 </body>
-</html>
+</html> -->
