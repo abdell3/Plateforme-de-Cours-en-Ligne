@@ -12,7 +12,7 @@ require_once __DIR__ . '/domain/Role.php';
 require_once __DIR__ . '/domain/Tag.php';
 require_once __DIR__ . '/domain/User.php';
 require_once __DIR__ . '/controller/CreateController.php';
-require_once __DIR__ . '/controller/DeleteController.php.php';
+require_once __DIR__ . '/controller/DeleteController.php';
 require_once __DIR__ . '/repository/AdminRepository.php';
 require_once __DIR__ . '/repository/CoursRepository.php';
 require_once __DIR__ . '/repository/EnseignantRepository.php';

@@ -1,37 +1,37 @@
-<?php
+<!-- <?php
 
-require_once __DIR__ . '/../include.php';
+// require_once __DIR__ . '/../include.php';
 
-class DeleteController {
+// class DeleteController {
 
-    private $etudiantService;
-    private $enseignantService;
-    private $adminService;
+//     private $etudiantService;
+//     private $enseignantService;
+//     private $adminService;
 
-    public function __construct() {
-        $this->etudiantService = new EtudiantService();
-        $this->enseignantService = new EnseignantService();
-        $this->adminService = new AdminService();  
-    }
+//     public function __construct() {
+//         $this->etudiantService = new EtudiantService();
+//         $this->enseignantService = new EnseignantService();
+//         $this->adminService = new AdminService();  
+//     }
 
-    public function delete() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $type = $_POST['type'];  
-            $id = $_POST['id'];  
+//     public function delete() {
+//         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+//             $type = $_POST['type'];  
+//             $id = $_POST['id'];  
 
-            if ($type === 'etudiant') {
+//             if ($type === 'etudiant') {
                 
-                $this->etudiantService->deleteEtudiant($id);
+//                 $this->etudiantService->deleteEtudiant($id);
 
-            } elseif ($type === 'enseignant') {
+//             } elseif ($type === 'enseignant') {
                 
-                $this->enseignantService->deleteEnseignant($id);
+//                 $this->enseignantService->deleteEnseignant($id);
 
-            } elseif ($type === 'admin') {
+//             } elseif ($type === 'admin') {
                 
-                $this->adminService->deleteAdmin($id);
-            }
-        }
-    }
-}
-?>
+//                 $this->adminService->deleteAdmin($id);
+//             }
+//         }
+//     }
+// }
+?> -->
