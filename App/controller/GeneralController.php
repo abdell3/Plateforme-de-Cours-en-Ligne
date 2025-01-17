@@ -19,8 +19,7 @@ class GeneralController
             $data = $_POST['data'];   
 
 
-            $id = $this->service->cre
-            ate($table, $data);
+            $id = $this->service->create($table, $data);
             echo "Entité créée avec l'ID : " . $id;
         }
     }
