@@ -42,6 +42,18 @@ class AdminRepository extends GeneralRepository
         return $this->update('enseignants', $data, $id);
     }
 
+    public function getAllCours() {
+        return $this->readAll('cours');
+    }
+
+    public function deleteCour($id) {
+        return $this->delete('cours', $id);
+    }
+
+    public function updateCour($data, $id) {
+        return $this->update('cours', $data, $id);
+    }
+
 
     public function createTag($data) {
         return $this->create('tags', $data);

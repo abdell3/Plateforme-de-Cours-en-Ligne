@@ -1,28 +1,33 @@
 <?php
 require_once __DIR__ . '/../Service/GeneralService.php';
 
-class GeneralController {
+class GeneralController 
+{
 
     private $service;
 
-    public function __construct() {
+    public function __construct() 
+    {
         $this->service = new GeneralService();
     }
 
     
-    public function create($table, $data) {
+    public function create($table, $data) 
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $table = $_POST['table'];  
             $data = $_POST['data'];   
 
 
-            $id = $this->service->create($table, $data);
+            $id = $this->service->cre
+            ate($table, $data);
             echo "Entité créée avec l'ID : " . $id;
         }
     }
 
     
-    public function readAll($table) {
+    public function readAll($table) 
+    {
         if (isset($_GET['table'])) {
             $table = $_GET['table'];  
             $entities = $this->service->readAll($table);
@@ -32,7 +37,8 @@ class GeneralController {
     }
 
     
-    public function readById($table, $id) {
+    public function readById($table, $id) 
+    {
         if (isset($_GET['table']) && isset($_GET['id'])) {
             $table = $_GET['table'];  
             $id = $_GET['id'];        
@@ -41,7 +47,8 @@ class GeneralController {
         }
     }
     
-    public function update($table, $id) {
+    public function update($table, $id) 
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $table = $_POST['table'];  
             $data = $_POST['data'];    
@@ -54,7 +61,8 @@ class GeneralController {
     
 
     
-    public function delete($table, $id) {
+    public function delete($table, $id) 
+    {
         if (isset($_GET['table']) && isset($_GET['id'])) {
             $table = $_GET['table'];  
             $id = $_GET['id'];        

@@ -6,8 +6,8 @@ include_once 'Detail.php';
 
     class Categorie extends Detail
     {
-        private int $id;
-        private array $cours = [];
+      
+        
 
 
 
@@ -17,30 +17,30 @@ include_once 'Detail.php';
         }
 
 
-        public function getId(): int
-        {
-            return $this->id;
-        }
-        public function setId(int $id)
-        {
-            $this->id = $id;
-        }
+        // public function getId(): int
+        // {
+        //     return $this->id;
+        // }
+        // public function setId(int $id)
+        // {
+        //     $this->id = $id;
+        // }
 
 
-        public function getCours(): array
-        {
-            return $this->cours;
-        }
+        // public function getCours(): array
+        // {
+        //     return $this->cours;
+        // }
 
-        public function setCours(array $cours)
-        {
-            $this->cours = $cours;
-        }
+        // public function setCours(array $cours)
+        // {
+        //     $this->cours = $cours;
+        // }
 
-        public function __toString() {
-            return parent :: __toString() .
-             " , cours: [" . implode(",", $this->cours) . "] . ";
-        }
+        // public function __toString() {
+        //     return parent :: __toString() ;
+             
+        // }
 
     }
 

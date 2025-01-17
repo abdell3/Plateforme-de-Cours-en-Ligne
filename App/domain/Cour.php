@@ -6,13 +6,11 @@
         private int $id;
         private string $titre;
         private string $description;
-        // private string $contenue;
+        private string $contenue;
         private Enseignant $enseignant;
-        private int $enseignant_id;
         private Categorie $categorie;
-        private int $categorie_id; 
-        private array $etudiants = [];
-        private array $tags = [];
+        private array $inscription = [];
+        private array $tags = []; //tableau pivot
         private string $photo;
 
 
@@ -21,9 +19,9 @@
         // {
 
         // }
-        public function __construct(string $titre, Enseignant $enseignant, Categorie $categorie, array $etudiants, array $tags, string $photo, string $description)
+        public function __construct(string $titre, Enseignant $enseignant, Categorie $categorie, array $etudiants, array $tags, string $photo, string $description, string $contenue)
         {
-            // $this->id = $id;
+            $this->contenue = $contenue;
             $this->titre = $titre;
             $this->description = $description;
             $this->enseignant = $enseignant;
@@ -85,13 +83,13 @@
 
 
 
-        public function getEtudiants(): array
+        public function getContenue()
         {
-            return $this->etudiants;
+            return $this->contenue;
         }
-        public function setEtudians(array $etudiants): void
+        public function setContenue($contenue): void
         {
-            $this->etudiants = $etudiants; 
+            $this->contenue = $contenue; 
         }
 
 
@@ -126,7 +124,7 @@
         " , tags: " . implode(" , ", $this->tags) . 
         " , categorie: " .$this->categorie. 
         " , enseignant : " .$this->enseignant . 
-        " , etudiant: " . implode(",", $this->etudiants) . ".";
+        " , Contenue : " .$this->contenue .".";
     }
 
 

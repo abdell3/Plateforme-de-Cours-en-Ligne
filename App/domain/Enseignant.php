@@ -6,6 +6,7 @@ include_once 'Role.php';
     class Enseignant extends User
     {
         private int $id;
+        private $dateInscription;
         private array $cours = [];
 
 
@@ -42,6 +43,11 @@ include_once 'Role.php';
         public function setCours(array $cours): void
         {
             $this->cours = $cours; 
+        }
+
+        public function getDateInscription()
+        {
+        return $this->dateInscription;
         }
 
 
