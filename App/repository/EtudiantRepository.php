@@ -1,10 +1,12 @@
 <?php
 require_once __DIR__ . '/../include.php'; 
 
-class EtudiantRepository {
+class EtudiantRepository 
+{
 
     
-    public function addEtudiant($nom, $prenom, $email, $motDePasse, $role_id, $phone, $image) {
+    public function addEtudiant($nom, $prenom, $email, $motDePasse, $role_id, $phone, $image) 
+    {
         $db = Database::getInstance();  
         $query = $db->prepare("INSERT INTO utilisateurs (nom, prenom, email, motDePasse, role_id, phone, image) 
                                VALUES (:nom, :prenom, :email, :motDePasse, :role_id, :phone, :image)");
@@ -22,7 +24,8 @@ class EtudiantRepository {
     }
 
     
-    public function getAllEtudiants() {
+    public function getAllEtudiants() 
+    {
         $db = Database::getInstance();
         $query = $db->prepare("SELECT * FROM users WHERE role_id = 2");  
         $query->execute();
@@ -31,7 +34,8 @@ class EtudiantRepository {
     }
 
    
-    public function getEtudiantById($id) {
+    public function getEtudiantById($id) 
+    {
         $db = Database::getInstance();
         $query = $db->prepare("SELECT * FROM utilisateurs WHERE id = :id AND role_id = 2");
         $query->bindParam(':id', $id);
@@ -41,7 +45,8 @@ class EtudiantRepository {
     }
 
     
-    public function updateEtudiant($id, $nom, $prenom, $email, $motDePasse, $role_id, $phone, $image) {
+    public function updateEtudiant($id, $nom, $prenom, $email, $motDePasse, $role_id, $phone, $image) 
+    {
         $db = Database::getInstance();
         $query = $db->prepare("UPDATE utilisateurs SET nom = :nom, prenom = :prenom, email = :email, 
                                 motDePasse = :motDePasse, role_id = :role_id, phone = :phone, image = :image 
@@ -61,8 +66,9 @@ class EtudiantRepository {
     }
 
     
-    public function delete($id) {
-        $db = Database::getInstance();  // Connexion à la base de données via Singleton
+    public function delete($id) 
+    {
+        $db = Database::getInstance();  
         $query = $db->prepare("DELETE FROM utilisateurs WHERE id = :id");
         $query->bindParam(':id', $id);
         $query->execute();

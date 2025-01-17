@@ -12,7 +12,7 @@ class User
     private Role $role;
     private int $role_id;
     private string $image;
-    private $dateInscription;
+    
 
 
 
@@ -33,7 +33,7 @@ class User
         $this->email = $email;
         $this->motDePasse = $pass;
         $this->role = $role;
-        // $this->dateInscription = $inscrit; 
+        
     }
     
     //getters and setters
@@ -128,10 +128,7 @@ class User
     {
         $this->image = $image;
     }
-    public function getDateInscription()
-    {
-        return $this->dateInscription;
-    }
+    
     
 
     public function __toString() {

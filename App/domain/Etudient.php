@@ -7,6 +7,7 @@ include_once 'Role.php';
     class Etudiant extends User
     {
         private int $id;
+        private $dateInscription;
         private array $cours = [];
 
         // public function __construct()
@@ -38,6 +39,10 @@ include_once 'Role.php';
         {
             $this->cours = $cours;
         }
+        public function getDateInscription()
+    {
+        return $this->dateInscription;
+    }
 
         public function __toString()
         {

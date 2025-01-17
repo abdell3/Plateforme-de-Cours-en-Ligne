@@ -77,6 +77,23 @@ class AdminService {
     }
 
 
+    public function createCour($data) {
+        return $this->adminRepository->create('cours', $data);
+    }
+
+    public function getAllCours() {
+        return $this->adminRepository->readAll('cours');
+    }
+
+    public function deleteCour($id) {
+        return $this->adminRepository->delete('cours', $id);
+    }
+
+    public function updateCour($data, $id) {
+        return $this->adminRepository->update('cours', $data, $id);
+    }
+
+
 }
 
 ?>

@@ -41,24 +41,29 @@ class AdminController extends GeneralController {
     
     public function listTags() {
         $tags = $this->readAll('tags'); 
-        require_once __DIR__ . '/../Views/listTags.php'; 
+        require_once __DIR__ . '/../Views/AdminDashboard.php'; 
     }
 
     
     public function listCategories() {
         $categories = $this->readAll('categories'); 
-        require_once __DIR__ . '/../Views/listCategories.php'; 
+        require_once __DIR__ . '/../Views/AdminDashboard.php'; 
     }
 
     public function listStudents() {
         $students = $this->readAll('etudiants'); 
-        require_once __DIR__ . '/../Views/listStudents.php'; 
+        require_once __DIR__ . '/../Views/AdminDashboard.php'; 
     }
 
 
     public function listTeachers() {
         $teachers = $this->readAll('enseignants');
-        require_once __DIR__ . '/../Views/listTeachers.php';
+        require_once __DIR__ . '/../Views/AdminDashboard.php';
+    }
+
+    public function listCours() {
+        $cours = $this->readAll('cours');
+        require_once __DIR__ . '/../Views/AdminDashboard.php';
     }
 
     
@@ -85,8 +90,9 @@ class AdminController extends GeneralController {
         $categories = $this->adminService->readAllCategories();
         $students = $this->adminService->getAllStudents();
         $teachers = $this->adminService->getAllTeachers();
+        $courses = $this->adminService->getAllCours();
 
-        require_once __DIR__ . '/../Views/dashboard.php';
+        require_once __DIR__ . '/../Views/AdminDashboard.php';
     }
 }
 ?>
