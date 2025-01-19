@@ -30,7 +30,8 @@ class GeneralController
         if (isset($_GET['table'])) {
             $table = $_GET['table'];  
             $entities = $this->service->readAll($table);
-            var_dump($entities);  
+            // var_dump($entities);  
+            echo json_encode($entities);  // Retourne un JSON pour un usage facile
             return $entities;
         }
     }
@@ -42,7 +43,8 @@ class GeneralController
             $table = $_GET['table'];  
             $id = $_GET['id'];        
             $entity = $this->service->readById($table, $id);
-            var_dump($entity);  
+            // var_dump($entity); 
+            echo json_encode($entity); 
         }
     }
     

@@ -22,6 +22,9 @@ class GeneralRepository
 
         $sql = "INSERT INTO {$table} ({$columns}) VALUES ({$values})";
         $stmt = $this->db->prepare($sql);
+        foreach ($data as $key => $value) {
+            $stmt->bindValue(":{$key}", $value);
+        }
         $stmt->execute();
         return $this->db->lastInsertId(); 
     }
@@ -29,24 +32,24 @@ class GeneralRepository
     
     public function readAll($table) 
     {
-        
-        if ($table == 'etudiants') {
-            $sql = "SELECT u.*, e.* FROM users u JOIN etudiants e ON u.id = e.id";
-        } elseif ($table == 'enseignants') {
-            $sql = "SELECT u.*, en.* FROM users u JOIN enseignants en ON u.id = en.id";
-        } 
-        // elseif ($table == 'tags' || $table == 'categories') {
-        //     $sql = "SELECT d.nom, d.smallDescription, d.logo, {$table}.* 
-        //             FROM detail d
-        //             JOIN {$table} t ON d.id = t.detail_id"; 
-        // }
-          elseif ($table == 'cours') {
-            $sql = "SELECT c.*, u.nom AS enseignant_nom, u.prenom AS enseignant_prenom
+        $sql = "SELECT * FROM {$table}";
+
+        if ($table === 'users') {
+            $sql = "SELECT u.*, r.title AS role_title FROM users u LEFT JOIN roles r ON u.role_id = r.id";
+        } elseif ($table === 'cours') {
+            $sql = "SELECT c.*, u.nom AS enseignant_nom, u.prenom AS enseignant_prenom, cat.nom AS categorie_nom
                     FROM cours c
-                    JOIN enseignants e ON c.enseignant_id = e.id
-                    JOIN users u ON e.id = u.id"; 
-        } else {
-            $sql = "SELECT * FROM {$table}"; 
+                    JOIN users u ON c.user_id = u.id
+                    JOIN categories cat ON c.categorie_id = cat.id";
+        } elseif ($table === 'inscription') {
+            $sql = "SELECT i.*, u.nom, u.prenom, c.titre
+                    FROM inscription i
+                    JOIN users u ON i.user_id = u.id
+                    JOIN cours c ON i.cours_id = c.id";
+        } elseif ($table === 'categories') {
+            $sql = "SELECT id, nom AS categorie_nom, description FROM categories";
+        } elseif ($table === 'tags') {
+            $sql = "SELECT id, nom AS tag_nom FROM tags";
         }
 
         $stmt = $this->db->prepare($sql);
@@ -54,47 +57,67 @@ class GeneralRepository
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    
-    public function readById($table, $id) 
-    {
-        if ($table == 'etudiants') {
-            $sql = "SELECT u.*, e.* FROM users u JOIN etudiants e ON u.id = e.id WHERE e.id = :id";
-        } elseif ($table == 'enseignants') {
-            $sql = "SELECT u.*, en.* FROM users u JOIN enseignants en ON u.id = en.id WHERE en.id = :id";
-        } elseif ($table == 'tags' || $table == 'categories') {
+
+       public function readById($table, $id) 
+        {   
+          if ($table == 'users') {
+            $sql = "SELECT u.*, r.title AS role_title FROM users u
+            LEFT JOIN roles r ON u.role_id = r.id
+            WHERE u.id = :id";
+         } elseif ($table == 'tags' || $table == 'categories') {
             $sql = "SELECT * FROM {$table} WHERE id = :id";
+         } elseif ($table == 'cours') {
+            $sql = "SELECT c.*, u.nom AS enseignant_nom, u.prenom AS enseignant_prenom, cat.nom AS categorie_nom
+                    FROM cours c
+                    JOIN users u ON c.user_id = u.id
+                    JOIN categories cat ON c.categorie_id = cat.id
+                    WHERE c.id = :id";
+         } elseif ($table == 'inscription') {
+            $sql = "SELECT i.*, u.prenom, u.nom, c.titre
+                    FROM inscription i
+                    JOIN users u ON i.user_id = u.id
+                    JOIN cours c ON i.cours_id = c.id
+                    WHERE i.user_id = :id";
         } else {
             $sql = "SELECT * FROM {$table} WHERE id = :id"; 
         }
 
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':id', $id);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
-    
-    public function update($table, $data, $id) 
-    {
-        $set = '';
-        foreach ($data as $column => $value) {
-            $set .= "{$column} = '{$value}', ";
+                $stmt = $this->db->prepare($sql);
+                $stmt->bindParam(':id', $id);
+                $stmt->execute();
+                return $stmt->fetch(PDO::FETCH_ASSOC);
         }
-        $set = rtrim($set, ", ");
 
-        $sql = "UPDATE {$table} SET {$set} WHERE id = :id";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':id', $id);
-        $stmt->execute();
-    }
 
     
-    public function delete($table, $id) 
-    {
-        $sql = "DELETE FROM {$table} WHERE id = :id";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':id', $id);
-        $stmt->execute();
-    }
+        public function update($table, $data, $id) 
+        {
+            $set = '';
+            foreach ($data as $column => $value) {
+                $set .= "{$column} = :{$column}, ";
+            }
+            $set = rtrim($set, ", ");
+        
+            $sql = "UPDATE {$table} SET {$set} WHERE id = :id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':id', $id);
+        
+            foreach ($data as $column => $value) {
+                $stmt->bindValue(":{$column}", $value);
+            }
+        
+            $stmt->execute();
+        }
+        
+
+    
+        public function delete($table, $id) 
+        {
+            $sql = "DELETE FROM {$table} WHERE id = :id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+        }
+        
 }
 ?>
