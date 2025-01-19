@@ -1,99 +1,38 @@
 <?php
-
-
 require_once __DIR__ . '/../Repository/AdminRepository.php';
 
-class AdminService {
+class AdminService 
+{
+    private $repository;
 
-    private $adminRepository;
-
-    public function __construct() {
-        $this->adminRepository = new AdminRepository();
+    public function __construct() 
+    {
+        $this->repository = new GeneralRepository();
     }
 
-    
-    public function createTag($data) {
-        return $this->adminRepository->create('tags', $data);
+    public function create($table, $data) 
+    {
+        return $this->repository->create($table, $data);
     }
 
-    
-    public function createCategory($data) {
-        return $this->adminRepository->create('categories', $data);
+    public function readAll($table) 
+    {
+        return $this->repository->readAll($table);
     }
 
-    
-    public function readAllTags() {
-        return $this->adminRepository->readAll('tags');
+    public function readById($table, $id) 
+    {
+        return $this->repository->readById($table, $id);
     }
 
-    
-    public function readAllCategories() {
-        return $this->adminRepository->readAll('categories');
+    public function update($table, $data, $id) 
+    {
+        $this->repository->update($table, $data, $id);
     }
 
-    
-    public function deleteTag($id) {
-        return $this->adminRepository->delete('tags', $id);
+    public function delete($table, $id) 
+    {
+        $this->repository->delete($table, $id);
     }
-
-    
-    public function deleteCategory($id) {
-        return $this->adminRepository->delete('categories', $id);
-    }
-
-
-    public function createStudent($data) {
-        return $this->adminRepository->create('etudiants', $data);
-    }
-
-
-    public function getAllStudents() {
-        return $this->adminRepository->readAll('etudiants');
-    }
-
-    public function deleteStudent($id) {
-        return $this->adminRepository->delete('etudiants', $id);
-    }
-
-    public function updateStudent($data, $id) {
-        return $this->adminRepository->update('etudiants', $data, $id);
-    }
-
-
-    public function createTeacher($data) {
-        return $this->adminRepository->create('enseignants', $data);
-    }
-
-    public function getAllTeachers() {
-        return $this->adminRepository->readAll('enseignants');
-    }
-
-    public function deleteTeacher($id) {
-        return $this->adminRepository->delete('enseignants', $id);
-    }
-
-    public function updateTeacher($data, $id) {
-        return $this->adminRepository->update('enseignants', $data, $id);
-    }
-
-
-    public function createCour($data) {
-        return $this->adminRepository->create('cours', $data);
-    }
-
-    public function getAllCours() {
-        return $this->adminRepository->readAll('cours');
-    }
-
-    public function deleteCour($id) {
-        return $this->adminRepository->delete('cours', $id);
-    }
-
-    public function updateCour($data, $id) {
-        return $this->adminRepository->update('cours', $data, $id);
-    }
-
-
 }
-
 ?>

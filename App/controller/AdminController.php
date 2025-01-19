@@ -1,97 +1,56 @@
 <?php
 require_once __DIR__ . '/../Controller/GeneralController.php';
+require_once __DIR__ . '/../Service/AdminService.php';
 
-class AdminController extends GeneralController {
-     
+class AdminController extends GeneralController 
+{
     private $adminService;
 
-    public function createTag() {
+    public function __construct() 
+    {
+        parent::__construct();
+        $this->adminService = new AdminService();
+    }
+
+    public function createEntity($table) 
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $data = $_POST['data']; 
-            $this->create('tags', $data); 
+            $data = $_POST['data'];
+            $this->adminService->create($table, $data);
+            echo "Nouvelle entité créée avec succès dans la table {$table}.";
         }
     }
 
-    
-    public function createCategory() {
+    public function listEntities($table) 
+    {
+        $entities = $this->adminService->readAll($table);
+        echo json_encode($entities); // Ou passer les données à une vue
+    }
+
+    public function updateEntity($table, $id) 
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $data = $_POST['data']; 
-            $this->create('categories', $data); 
+            $data = $_POST['data'];
+            $this->adminService->update($table, $data, $id);
+            echo "Entité mise à jour avec succès dans la table {$table}.";
         }
     }
 
-
-    public function createStudent() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $data = $_POST['data']; 
-            $this->create('etudiants', $data);
-        }
+    public function deleteEntity($table, $id) 
+    {
+        $this->adminService->delete($table, $id);
+        echo "Entité supprimée avec succès de la table {$table}.";
     }
-
-
-    public function createTeacher() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $data = $_POST['data']; 
-            $this->create('enseignants', $data);
-        }
-    }
-
-
-
-    
-    public function listTags() {
-        $tags = $this->readAll('tags'); 
-        require_once __DIR__ . '/../Views/AdminDashboard.php'; 
-    }
-
-    
-    public function listCategories() {
-        $categories = $this->readAll('categories'); 
-        require_once __DIR__ . '/../Views/AdminDashboard.php'; 
-    }
-
-    public function listStudents() {
-        $students = $this->readAll('etudiants'); 
-        require_once __DIR__ . '/../Views/AdminDashboard.php'; 
-    }
-
-
-    public function listTeachers() {
-        $teachers = $this->readAll('enseignants');
-        require_once __DIR__ . '/../Views/AdminDashboard.php';
-    }
-
-    public function listCours() {
-        $cours = $this->readAll('cours');
-        require_once __DIR__ . '/../Views/AdminDashboard.php';
-    }
-
-    
-    public function deleteTag($id) {
-        $this->delete('tags', $id); 
-    }
-
-    
-    public function deleteCategory($id) {
-        $this->delete('categories', $id); 
-    }
-
-    public function deleteStudent($id) {
-        $this->delete('etudiants', $id);
-    }
-
-    public function deleteTeacher($id) {
-        $this->delete('enseignants', $id);
-    }
-
 
     public function dashboard() {
-        $tags = $this->adminService->readAllTags();
-        $categories = $this->adminService->readAllCategories();
-        $students = $this->adminService->getAllStudents();
-        $teachers = $this->adminService->getAllTeachers();
-        $courses = $this->adminService->getAllCours();
-
+        // Récupérer les données nécessaires via AdminService
+        $tags = $this->adminService->readAll('tags'); // Méthode générique
+        $categories = $this->adminService->readAll('categories'); 
+        $students = $this->adminService->readAll('etudiants');
+        $teachers = $this->adminService->readAll('enseignants');
+        $courses = $this->adminService->readAll('cours');
+        
+        // Passer les données à la vue du tableau de bord
         require_once __DIR__ . '/../Views/AdminDashboard.php';
     }
 }
