@@ -4,9 +4,6 @@
 include_once 'User.php';
 include_once 'Role.php';
 
-
-
-
     class Admin extends User
     {
         private int $id;
@@ -40,8 +37,6 @@ include_once 'Role.php';
             $this->cours = $cours;
         }
 
-
-
         public function getEtudants(): array
         {
             return $this->etudiants;
@@ -50,7 +45,6 @@ include_once 'Role.php';
         {
             $this->etudiants = $etudiants;
         }
-
 
 
         public function getEnseignants(): array
@@ -62,8 +56,6 @@ include_once 'Role.php';
             $this->enseignants = $enseignants;
         }
 
-
-
         public function __toString()
         {
             return parent::__toString() . 
@@ -71,13 +63,6 @@ include_once 'Role.php';
             "] , etudiants: [" . implode(",", $this->etudiants) .
             "] , enseignants: [" . implode(",", $this->enseignants) . "] . ";
         }
-
-
-
-
-
-
-
     }
 
 

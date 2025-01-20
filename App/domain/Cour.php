@@ -12,9 +12,6 @@
         private array $inscription = [];
         private array $tags = []; //tableau pivot
         private string $photo;
-
-
-
         // public function __construct()
         // {
 
@@ -126,34 +123,5 @@
         " , enseignant : " .$this->enseignant . 
         " , Contenue : " .$this->contenue .".";
     }
-
-
-
-
-
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ?>

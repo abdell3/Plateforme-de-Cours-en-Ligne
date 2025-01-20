@@ -1,36 +1,39 @@
 <?php
 
+require_once __DIR__ . '/../Service/AdminService.php';
 
-require_once __DIR__ . '/../../App/Service/AdminService.php'; 
+if (isset($_GET['id'], $_GET['type'])) {
+    $id = (int) $_GET['id'];
+    $type = $_GET['type'];
 
-
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
-    $type = $_GET['type']; 
-    
     $adminService = new AdminService();
-    
-    switch ($type) {
-        case 'etudiant':
-            $adminService->deleteStudent($id);
-            break;
-        case 'enseignant':
-            $adminService->deleteTeacher($id);
-            break;
-        case 'cours':
-            $adminService->deleteCour($id);
-            break;
-        case 'tag':
-            $adminService->deleteTag($id);
-            break;
-        case 'category':
-            $adminService->deleteCategory($id);
-            break;
+    try {
+        switch ($type) {
+            case 'etudiant':
+                $adminService->delete('etudiants',$id);
+                break;
+            case 'enseignant':
+                $adminService->delete('enseignats',$id);
+                break;
+            case 'cours':
+                $adminService->delete('cours',$id);
+                break;
+            case 'tag':
+                $adminService->delete('tags',$id);
+                break;
+            case 'category':
+                $adminService->delete('categories',$id);
+                break;
+            default:
+                throw new Exception("Type inconnu");
+        }
+
+        header('Location: /admin/dashboard.php');
+        exit();
+    } catch (Exception $e) {
+        echo "Erreur : " . htmlspecialchars($e->getMessage());
     }
-    
-    header('Location: /admin/dashboard.php'); 
-    exit();
 } else {
-    echo "ID de l'élément manquant.";
+    echo "ID ou type manquant.";
 }
 ?>

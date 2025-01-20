@@ -7,8 +7,6 @@
         private string $smallDescription;
         private string $logo;
 
-
-
         public function __construct(string $nom, string $smallDescri, string $logo)
         {
             $this->nom = $nom;
@@ -54,36 +52,11 @@
             $this->logo = $logo;
         }
 
-
-        // public function getCours(): array
-        // {
-        //     return $this->cours;
-        // }
-
-        // public function setCours(array $cours)
-        // {
-        //     $this->cours = $cours;
-        // }
-
         public function __toString() {
             return "Id : " . $this->id.  
              " , Nom: " .$this->nom.     
              " , description : " .$this->smallDescription .  
              " logo : " . $this->logo . " . ";
         }
-            //  " , cours: [" . implode(",", $this->cours) . 
-            
-
     }
-
-
-
-
-
-
-
-
-
-
-
 ?>

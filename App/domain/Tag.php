@@ -6,10 +6,6 @@ include_once 'Detail.php';
 
     class Tag extends Detail
     {
-        
-       
-
-
         public function __construct(string $nom, string $smallDescri, string $logo)
         {
             parent :: __construct($nom, $smallDescri, $logo);
@@ -33,21 +29,5 @@ include_once 'Detail.php';
         // {
         //     $this->detail_id= $detailId;
         // }
-
-
-
-        // q
-
     }
-
-
-
-
-
-
-
-
-
-
-
 ?>
