@@ -49,26 +49,5 @@ include_once 'Role.php';
             return parent::__toString() . 
             " , cours: " . implode(",", $this->cours) . ".";
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
-
 ?>

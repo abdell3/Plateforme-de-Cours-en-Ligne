@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__ . '/../Repository/AdminRepository.php';
+
+require_once __DIR__ . '/../Repository/GeneralRepository.php';
 
 class AdminService 
 {
@@ -18,6 +19,22 @@ class AdminService
     public function readAll($table) 
     {
         return $this->repository->readAll($table);
+    }
+
+    public function getAllTeachers() {
+        return $this->repository->readAll('users');
+    }
+
+    public function getAllStudents() {
+        return $this->repository->readAll('users');
+    }
+
+    public function getAllCategories() {
+        return $this->repository->readAll('categories'); 
+    }
+
+    public function getAllTags() {
+        return $this->repository->readAll('tags');
     }
 
     public function readById($table, $id) 

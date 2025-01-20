@@ -13,16 +13,9 @@ class User
     private int $role_id;
     private string $image;
     
-
-
-
-
-    // public Gender $gender; 
-    
     // public function __construct() 
     // {
     // }
-    //constructer with paraùeters 
     
     public function __construct($nom, $prenom, $phone, $email,$pass, Role $role)
     {
@@ -35,8 +28,6 @@ class User
         $this->role = $role;
         
     }
-    
-    //getters and setters
 
     public function getId():int
     {
@@ -47,8 +38,6 @@ class User
         $this->id = $id;
     }
 
-
-
     public function getNom(): string{
         return $this->nom;
     }
@@ -56,8 +45,7 @@ class User
     {
         $this->nom = $nom;
     }
-    
-    
+      
     public function getPrenom (): string
     {
         return $this->prenom;
@@ -67,7 +55,6 @@ class User
         $this->prenom = $prenom;
     }
 
-
     public function getPhone(): string
     {
         return $this->phone;
@@ -76,8 +63,6 @@ class User
     {
         $this->phone = $phone;
     }
-
-
     public function getEmail(): string
     {
         return $this->email;
@@ -129,8 +114,6 @@ class User
         $this->image = $image;
     }
     
-    
-
     public function __toString() {
         return "Id : " . $this->id.  
          " , Nom: " .$this->nom.  
@@ -142,8 +125,5 @@ class User
          " , Role : " . $this->role . 
          " , Role_ID : " . $this->role_id . "" ;
     }
-
-     
-
 }
 ?>

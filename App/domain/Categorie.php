@@ -6,17 +6,10 @@ include_once 'Detail.php';
 
     class Categorie extends Detail
     {
-      
-        
-
-
-
         public function __construct(string $nom, string $smallDescri, string $logo)
         {
            parent::__construct($nom, $smallDescri, $logo);
         }
-
-
         // public function getId(): int
         // {
         //     return $this->id;
@@ -43,15 +36,4 @@ include_once 'Detail.php';
         // }
 
     }
-
-
-
-
-
-
-
-
-
-
-
 ?>

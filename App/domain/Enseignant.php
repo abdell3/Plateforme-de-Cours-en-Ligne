@@ -8,9 +8,6 @@ include_once 'Role.php';
         private int $id;
         private $dateInscription;
         private array $cours = [];
-
-
-
         // public function __constract()
         // {
 
@@ -59,16 +56,4 @@ include_once 'Role.php';
     
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
 ?>

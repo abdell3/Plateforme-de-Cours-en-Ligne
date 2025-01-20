@@ -6,8 +6,6 @@
         private Cour $cour;
         private User $etudiants;
 
-
-
         public function __construct()
         {
         }
@@ -34,6 +32,4 @@
         }
 
     }
-
-
 ?>

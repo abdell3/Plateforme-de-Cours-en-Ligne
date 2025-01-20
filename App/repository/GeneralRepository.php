@@ -47,15 +47,46 @@ class GeneralRepository
                     JOIN users u ON i.user_id = u.id
                     JOIN cours c ON i.cours_id = c.id";
         } elseif ($table === 'categories') {
-            $sql = "SELECT id, nom AS categorie_nom, description FROM categories";
+            $sql = "SELECT id, nom, smallDescription FROM categories";
         } elseif ($table === 'tags') {
-            $sql = "SELECT id, nom AS tag_nom FROM tags";
+            $sql = "SELECT id, nom FROM tags";
         }
 
+        // if (!empty($filters)) {
+        //     $conditions = [];
+        //     foreach ($filters as $column => $value) {
+        //         $conditions[] = "{$column} = :{$column}";
+        //     }
+        //     $sql .= " WHERE " . implode(" AND ", $conditions);
+        // }
+
+
+        // echo "Requête SQL : $sql<br>";
+        // print_r($filters);
+
+
+
         $stmt = $this->db->prepare($sql);
+
+        // foreach ($filters as $column => $value) {
+        //     $stmt->bindValue(":{$column}", $value);
+        // }
+
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    // public function getUsersByRole($role) 
+    // {
+    //     $sql = "SELECT u.*, r.title AS role_title 
+    //             FROM users u
+    //             LEFT JOIN roles r ON u.role_id = r.id
+    //             WHERE r.title = :role";
+    //     $stmt = $this->db->prepare($sql);
+    //     $stmt->bindParam(':role', $role);
+    //     $stmt->execute();
+    //     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // }
 
 
        public function readById($table, $id) 
