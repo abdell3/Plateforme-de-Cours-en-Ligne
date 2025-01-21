@@ -1,46 +1,64 @@
 <?php
-require_once __DIR__ . '/../Repository/EtudiantRepository.php';  
+require_once __DIR__ . '/../Repository/GeneralRepository.php';
 
-class EtudiantService 
-{
+class EtudiantService {
+    private $repo;
 
-    private $etudiantRepository;
+    public function __construct() {
+        $this->repo = new GeneralRepository();
+    }
 
-    public function __construct() 
-    {
-        $this->etudiantRepository = new EtudiantRepository();  
+
+    public function getCourseById($id) {
+        $cour = $this->repo->readById('cours', $id);
+        if ($cour) {
+            return $cour;
+        }
+        return null; 
+    }
+
+
+    public function getAllCourses() {
+        return $this->repo->readAll('cours');
+    }
+
+   
+    public function searchCourses($filters) {
+        return $this->repo->readAll('cours', $filters);
     }
 
     
-    public function createEtudiant($nom, $prenom, $email, $motDePasse, $role_id, $phone, $image) 
-    {
-        
-        $this->etudiantRepository->addEtudiant($nom, $prenom, $email, $motDePasse, $role_id, $phone, $image);
+    public function getCourseDetails($id) {
+        $filters = ['id' => $id];
+        $courses = $this->repo->readAll('cours', $filters);
+        return $courses ? $courses[0] : null;
     }
 
-    
-    public function getAllEtudiants() 
-    {
-        return $this->etudiantRepository->getAllEtudiants();
+    public function getAllCategories() {
+        return $this->repo->readAll('categories');
     }
 
-   
-    public function getEtudiantById($id) 
-    {
-        return $this->etudiantRepository->getEtudiantById($id);
+    public function getAllTags() {
+        return $this->repo->readAll('tags');
     }
 
-   
-    public function updateEtudiant($id, $nom, $prenom, $email, $motDePasse, $role_id, $phone, $image) 
-    {
-        $this->etudiantRepository->updateEtudiant($id, $nom, $prenom, $email, $motDePasse, $role_id, $phone, $image);
+
+    public function getCoursesByFilters($filters) {
+        return $this->repo->readAll('cours', $filters);
     }
 
-   
-    public function deleteEtudiant($id) 
+    public function getFilteredCourses($categorie = null, $tag = null) 
     {
-        $this->etudiantRepository->delete($id);
+           $filters = [];
+
+            if ($categorie) {
+                $filters['categorie'] = $categorie;
+            }
+            if ($tag) {
+                $filters['tag'] = $tag;
+            }
+
+            return $this->repo->readAllWithFilters($filters);
     }
+
 }
-?>
-
