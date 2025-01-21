@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 require_once __DIR__ . '/../include.php'; 
 
 class EtudiantRepository 
@@ -74,4 +74,4 @@ class EtudiantRepository
         $query->execute();
     }
 }
-?>
+?> -->

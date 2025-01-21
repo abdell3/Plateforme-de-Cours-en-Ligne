@@ -30,93 +30,115 @@ class GeneralRepository
     }
 
     
-    public function readAll($table) 
+    public function readAll($table, $filters = []) 
     {
         $sql = "SELECT * FROM {$table}";
 
-        if ($table === 'users') {
-            $sql = "SELECT u.*, r.title AS role_title FROM users u LEFT JOIN roles r ON u.role_id = r.id";
-        } elseif ($table === 'cours') {
-            $sql = "SELECT c.*, u.nom AS enseignant_nom, u.prenom AS enseignant_prenom, cat.nom AS categorie_nom
-                    FROM cours c
-                    JOIN users u ON c.user_id = u.id
-                    JOIN categories cat ON c.categorie_id = cat.id";
-        } elseif ($table === 'inscription') {
-            $sql = "SELECT i.*, u.nom, u.prenom, c.titre
-                    FROM inscription i
-                    JOIN users u ON i.user_id = u.id
-                    JOIN cours c ON i.cours_id = c.id";
-        } elseif ($table === 'categories') {
-            $sql = "SELECT id, nom, smallDescription FROM categories";
-        } elseif ($table === 'tags') {
-            $sql = "SELECT id, nom FROM tags";
+        switch ($table) {
+            case 'users':
+                $sql = "SELECT u.*, r.title AS role_title 
+                        FROM users AS u 
+                        LEFT JOIN roles AS r 
+                        ON u.role_id = r.id";
+                break;
+            case 'cours':
+                $sql = "SELECT c.*, u.nom AS enseignant_nom, u.prenom AS enseignant_prenom, cat.nom AS categorie_nom
+                        FROM cours AS c
+                        JOIN users AS u 
+                        ON c.user_id = u.id
+                        JOIN categories AS cat 
+                        ON c.categorie_id = cat.id";
+                break;
+            case 'inscription':
+                $sql = "SELECT i.*, u.nom, u.prenom, c.titre
+                        FROM inscription AS i
+                        JOIN users AS u 
+                        ON i.user_id = u.id
+                        JOIN cours AS c 
+                        ON i.cours_id = c.id";
+                break;
+            case 'categories':
+                $sql = "SELECT id, nom, smallDescription FROM categories";
+                break;
+            case 'tags':
+                $sql = "SELECT id, nom FROM tags";
+                break;
         }
 
-        // if (!empty($filters)) {
-        //     $conditions = [];
-        //     foreach ($filters as $column => $value) {
-        //         $conditions[] = "{$column} = :{$column}";
-        //     }
-        //     $sql .= " WHERE " . implode(" AND ", $conditions);
-        // }
 
-
-        // echo "Requête SQL : $sql<br>";
-        // print_r($filters);
-
+        if (!empty($filters)) {
+            $conditions = [];
+                foreach ($filters as $column => $value) {
+                     if ($table === 'categories') {
+                        $conditions[] = "cat.{$column} LIKE :{$column}"; 
+                    } elseif ($table === 'tags') {
+                        $conditions[] = "t.{$column} LIKE :{$column}"; 
+                    } elseif ($table === 'cours') {
+                        $conditions[] = "c.{$column} LIKE :{$column}";
+                    } else {
+                        $conditions[] = "{$column} LIKE :{$column}";
+                    }
+    }
+    $sql .= " WHERE " . implode(" AND ", $conditions);
+        }
 
 
         $stmt = $this->db->prepare($sql);
 
-        // foreach ($filters as $column => $value) {
-        //     $stmt->bindValue(":{$column}", $value);
-        // }
+        foreach ($filters as $column => $value) {
+            $stmt->bindValue(":{$column}", "%{$value}%");
+        }
 
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    // public function getUsersByRole($role) 
-    // {
-    //     $sql = "SELECT u.*, r.title AS role_title 
-    //             FROM users u
-    //             LEFT JOIN roles r ON u.role_id = r.id
-    //             WHERE r.title = :role";
-    //     $stmt = $this->db->prepare($sql);
-    //     $stmt->bindParam(':role', $role);
-    //     $stmt->execute();
-    //     return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    // }
-
+        }
 
        public function readById($table, $id) 
         {   
-          if ($table == 'users') {
-            $sql = "SELECT u.*, r.title AS role_title FROM users u
-            LEFT JOIN roles r ON u.role_id = r.id
-            WHERE u.id = :id";
-         } elseif ($table == 'tags' || $table == 'categories') {
-            $sql = "SELECT * FROM {$table} WHERE id = :id";
-         } elseif ($table == 'cours') {
-            $sql = "SELECT c.*, u.nom AS enseignant_nom, u.prenom AS enseignant_prenom, cat.nom AS categorie_nom
-                    FROM cours c
-                    JOIN users u ON c.user_id = u.id
-                    JOIN categories cat ON c.categorie_id = cat.id
-                    WHERE c.id = :id";
-         } elseif ($table == 'inscription') {
-            $sql = "SELECT i.*, u.prenom, u.nom, c.titre
-                    FROM inscription i
-                    JOIN users u ON i.user_id = u.id
-                    JOIN cours c ON i.cours_id = c.id
-                    WHERE i.user_id = :id";
-        } else {
-            $sql = "SELECT * FROM {$table} WHERE id = :id"; 
-        }
+            switch ($table) {
+                case 'users':
+                    $sql = "SELECT u.*, r.title AS role_title 
+                            FROM users AS u
+                            LEFT JOIN roles AS r 
+                            ON u.role_id = r.id
+                            WHERE u.id = :id";
+                    break;
+                case 'tags':
+                case 'categories':
+                    $sql = "SELECT * FROM {$table} WHERE id = :id";
+                    break;
+                case 'cours':
+                    $sql = "SELECT c.*, u.nom AS enseignant_nom, u.prenom AS enseignant_prenom, cat.nom AS categorie_nom
+                            FROM cours AS c
+                            JOIN users AS u 
+                            ON c.user_id = u.id
+                            JOIN categories AS cat 
+                            ON c.categorie_id = cat.id
+                            WHERE c.id = :id";
+                    break;
+                case 'inscription':
+                    $sql = "SELECT i.*, u.prenom, u.nom, c.titre
+                            FROM inscription AS i
+                            JOIN users AS u 
+                            ON i.user_id = u.id
+                            JOIN cours AS c 
+                            ON i.cours_id = c.id
+                            WHERE i.user_id = :id";
+                    break;
+                default:
+                    $sql = "SELECT * FROM {$table} WHERE id = :id"; 
+            }
 
                 $stmt = $this->db->prepare($sql);
                 $stmt->bindParam(':id', $id);
                 $stmt->execute();
-                return $stmt->fetch(PDO::FETCH_ASSOC);
+                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+            if ($result) {
+              return $result; 
+            }   
+    
+         return null; 
         }
 
 
@@ -149,6 +171,45 @@ class GeneralRepository
             $stmt->bindParam(':id', $id);
             $stmt->execute();
         }
+
+
+
+        public function readAllWithFilters($filters) 
+        {
+              $sql = "SELECT DISTINCT c.*, cat.nom AS categorie_nom, u.nom AS enseignant_nom, u.prenom AS enseignant_prenom
+                     FROM cours AS c
+                     JOIN categories AS cat ON c.categorie_id = cat.id
+                     JOIN users AS u ON c.user_id = u.id
+                     LEFT JOIN tagcours AS tc ON c.id = tc.cours_id
+                     LEFT JOIN tags AS t ON tc.tag_id = t.id";
+
+                $conditions = [];
+                $params = [];
+
+                if (!empty($filters['categorie'])) {
+                       $conditions[] = "cat.nom = :categorie";
+                       $params[':categorie'] = $filters['categorie'];
+                }
+
+                if (!empty($filters['tag'])) {
+                        $conditions[] = "t.nom = :tag";
+                        $params[':tag'] = $filters['tag'];
+                }
+
+                if (!empty($conditions)) {
+                        $sql .= " WHERE " . implode(" AND ", $conditions);
+                }
+
+                $stmt = $this->db->prepare($sql);
+
+                foreach ($params as $key => $value) {
+                        $stmt->bindValue($key, $value);
+                }
+
+                $stmt->execute();
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
         
 }
 ?>

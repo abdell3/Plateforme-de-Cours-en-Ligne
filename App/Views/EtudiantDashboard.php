@@ -1,12 +1,27 @@
 <?php
-require_once __DIR__ . '/../Service/StudentService.php';
-$studentService = new StudentService();
-
+require_once __DIR__ . '/../Service/EtudiantService.php';
+$etudiantService = new EtudiantService();
 
 try {
-    $courses = $studentService->getAllCourses();
-    $categories = $studentService->getAllCategories();
-    $tags = $studentService->getAllTags();
+    $categories = $etudiantService->getAllCategories();
+    $tags = $etudiantService->getAllTags();
+
+    
+    $filters = [];
+
+    if (!empty($_GET['category'])) {
+        $filters['id'] = $_GET['category'];
+    }
+
+    if (!empty($_GET['tag'])) {
+        $filters['id'] = $_GET['tag'];
+    }
+
+    if (!empty($_GET['search'])) {
+        $filters['search'] = $_GET['search'];
+    }
+
+    $cours = $etudiantService->getCoursesByFilters($filters);
 } catch (Exception $e) {
     die("Erreur lors de la récupération des données : " . $e->getMessage());
 }
@@ -55,20 +70,20 @@ try {
             <h2 class="text-2xl font-semibold mb-4">Recherche de Cours</h2>
             <form method="GET" action="">
                 <div class="flex space-x-4 mb-4">
-                    <input type="text" name="search" placeholder="Rechercher un cours..." class="p-2 w-full rounded-lg border border-gray-300">
+                    <input type="text" name="search" placeholder="Rechercher un cours..." class="p-2 w-full rounded-lg border border-gray-300" value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
                     <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Rechercher</button>
                 </div>
                 <div class="flex space-x-4 mb-4">
                     <select name="category" class="p-2 w-full rounded-lg border border-gray-300">
                         <option value="">Choisir une catégorie</option>
                         <?php foreach ($categories as $categorie): ?>
-                            <option value="<?= $categorie['id']; ?>"><?= htmlspecialchars($categorie['nom']); ?></option>
+                            <option value="<?= $categorie['id']; ?>" <?= isset($_GET['category']) && $_GET['category'] == $categorie['id'] ? 'selected' : '' ?>><?= htmlspecialchars($categorie['nom']); ?></option>
                         <?php endforeach; ?>
                     </select>
                     <select name="tag" class="p-2 w-full rounded-lg border border-gray-300">
                         <option value="">Choisir un tag</option>
                         <?php foreach ($tags as $tag): ?>
-                            <option value="<?= $tag['id']; ?>"><?= htmlspecialchars($tag['nom']); ?></option>
+                            <option value="<?= $tag['id']; ?>" <?= isset($_GET['tag']) && $_GET['tag'] == $tag['id'] ? 'selected' : '' ?>><?= htmlspecialchars($tag['nom']); ?></option>
                         <?php endforeach; ?>
                     </select>
                     <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Filtrer</button>
@@ -80,19 +95,24 @@ try {
         <section id="courses" class="mb-6">
             <h2 class="text-2xl font-semibold mb-4">Cours Disponibles</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <?php foreach ($courses as $course): ?>
-                    <div class="bg-white shadow-lg rounded-lg p-4">
-                        <h3 class="text-xl font-semibold mb-2"><?= htmlspecialchars($course['title']); ?></h3>
-                        <p class="text-gray-600 mb-4"><?= htmlspecialchars($course['description']); ?></p>
-                        <a href="/App/Views/courseDetails.php?id=<?= $course['id']; ?>" class="text-blue-500 hover:underline">Voir les détails</a>
-                    </div>
-                <?php endforeach; ?>
+                <?php if (empty($cours)): ?>
+                    <p>Aucun cours trouvé.</p>
+                <?php else: ?>
+                    <?php foreach ($cours as $cour): ?>
+                        <div class="bg-white shadow-lg rounded-lg p-4">
+                            <img src="<?= htmlspecialchars($cour['photo']); ?>" alt="Image de <?= htmlspecialchars($cour['titre']); ?>" class="rounded-t-lg mb-4 w-full h-48 object-cover">
+                            <h3 class="text-xl font-semibold mb-2"><?= htmlspecialchars($cour['titre']); ?></h3>
+                            <p class="text-gray-600 mb-4"><?= htmlspecialchars($cour['description']); ?></p>
+                            <a href="./formes/Etudiant/CourDetail.php?id=<?= $cour['id']; ?>" class="text-blue-500 hover:underline">Voir les détails</a>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </div>
         </section>
 
-        <!-- Section: Détails d'un Cours -->
+       
         <section id="courseDetails" class="mb-6">
-            <!-- Cette section sera remplie sur la page des détails du cours -->
+            
         </section>
     </main>
 </div>
