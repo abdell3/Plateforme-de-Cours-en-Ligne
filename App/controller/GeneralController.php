@@ -31,7 +31,7 @@ class GeneralController
             $table = $_GET['table'];  
             $entities = $this->service->readAll($table);
             // var_dump($entities);  
-            echo json_encode($entities);  // Retourne un JSON pour un usage facile
+            echo json_encode($entities);  
             return $entities;
         }
     }

@@ -210,6 +210,27 @@ class GeneralRepository
                 return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
+
+
+        public function findBy($table, $conditions)
+        {
+             $sql = "SELECT * FROM {$table} WHERE ";
+             $sqlConditions = [];
+             $params = [];
+
+            foreach ($conditions as $column => $value) {
+                $sqlConditions[] = "{$column} = ?";
+                $params[] = $value;
+            }
+
+            $sql .= implode(' AND ', $sqlConditions);
+
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute($params);
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
         
 }
 ?>
