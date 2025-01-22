@@ -60,5 +60,4 @@ class EtudiantService {
 
             return $this->repo->readAllWithFilters($filters);
     }
-
 }

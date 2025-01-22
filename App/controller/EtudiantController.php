@@ -1,18 +1,19 @@
 <?php
 require_once __DIR__ . '/../Service/EtudiantService.php';
 
-class EtudiantController {
-    private $service;
+    class EtudiantController
+     {
+        private $service;
 
-    public function __construct() {
+        public function __construct() {
         $this->service = new EtudiantService();
     }
 
-    public function showCourses() {
+        public function showCourses() {
         $courses = $this->service->getAllCourses();
         include __DIR__ . '/../Views/EtudiantDashboard.php'; 
     }
-    public function searchCourses() {
+        public function searchCourses() {
         $filters = [];
         if (isset($_GET['search'])) {
             $filters['titre'] = '%' . $_GET['search'] . '%';

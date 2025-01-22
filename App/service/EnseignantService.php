@@ -1,45 +1,66 @@
 <?php
-require_once __DIR__ . '/../Repository/EnseignantRepository.php';  
+require_once dirname(__DIR__, 1) . '/repository/GeneralRepository.php';
 
-class EnseignantService 
+class EnseignantService
 {
+    private $repository;
 
-    private $enseignantRepository;
-
-    public function __construct() 
+    public function __construct()
     {
-        $this->enseignantRepository = new EnseignantRepository();  
+        $this->repository = new GeneralRepository();
     }
 
-    
-    public function createEnseignant($nom, $prenom, $email, $motDePasse, $role_id, $phone, $image) 
+    public function getAllCategories()
     {
-        
-        $this->enseignantRepository->addEnseignant($nom, $prenom, $email, $motDePasse, $role_id, $phone, $image);
+        return $this->repository->readAll('categories');
     }
 
-
-    public function getAllEnseignants() 
+    public function getAllTags()
     {
-        return $this->enseignantRepository->getAllEnseignants();
+        return $this->repository->readAll('tags');
     }
 
-    
-    public function getEnseignantById($id) 
+    public function createCourseWithTags($data, $tags)
     {
-        return $this->enseignantRepository->getEnseignantById($id);
+       
+        $courseId = $this->repository->create('cours', $data);
+
+        foreach ($tags as $tagId) {
+            $this->repository->create('tagcours', [
+                'tag_id' => $tagId,
+                'course_id' => $courseId
+            ]);
+        }
+
+        return $courseId;
     }
 
-    
-    public function updateEnseignant($id, $nom, $prenom, $email, $motDePasse, $role_id, $phone, $image) 
+    public function afficherCours($enseignantId)
     {
-        $this->enseignantRepository->updateEnseignant($id, $nom, $prenom, $email, $motDePasse, $role_id, $phone, $image);
+        $conditions = ['enseignant_id' => $enseignantId];
+        return $this->repository->findBy('cours', $conditions);
     }
 
-    
-    public function deleteEnseignant($id) 
+    public function getCoursesByEnseignant($enseignantId)
     {
-        $this->enseignantRepository->delete($id);
+        $conditions = ['enseignant_id' => $enseignantId];
+        return $this->repository->findBy('cours', $conditions);
+    }
+
+    public function createCourse($data)
+    {
+        $this->repository->create('cours', $data);
+    }
+
+    public function updateCourse($id, $data)
+    {
+        $conditions = ['id' => $id];
+        $this->repository->update('cours', $data, $conditions);
+    }
+
+    public function deleteCourse($id)
+    {
+        $conditions = ['id' => $id];
+        $this->repository->delete('cours', $conditions);
     }
 }
-?>
